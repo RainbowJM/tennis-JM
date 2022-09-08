@@ -12,7 +12,7 @@ class PlayerTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("Get player name")
     void getName() {
         Player player = new Player("Jason");
 
