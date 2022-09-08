@@ -8,10 +8,30 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
 
     @Test
+    void getId() {
+    }
+
+    @Test
     @DisplayName("")
-    void nameEqual(){
+    void getName() {
         Player player = new Player("Jason");
 
         assertEquals("Jason", player.getName());
+    }
+
+    @Test
+    void getScore() {
+    }
+
+    @Test
+    void setId() {
+    }
+
+    @Test
+    void setName() {
+    }
+
+    @Test
+    void setScore() {
     }
 }
