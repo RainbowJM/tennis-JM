@@ -99,13 +99,13 @@ class PlayerControllerTest {
         int id = player3.getId();
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get("/player" + id);
+                .get("/player/" + id);
 
         mockMvc.perform(requestBuilder)
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id", is(3)))
-                .andExpect(jsonPath("$[0].name",is("Juan")));
+                .andExpect(jsonPath("id", is(3)))
+                .andExpect(jsonPath("name",is("Juan")));
 
         verify(playerRepository).findById(id);
     }
@@ -134,7 +134,7 @@ class PlayerControllerTest {
         int id = player3.getId();
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete("/player" + id);
+                .delete("/player/" + id);
 
         mockMvc.perform(requestBuilder)
                 .andDo(MockMvcResultHandlers.print())
@@ -143,19 +143,17 @@ class PlayerControllerTest {
 
     @Test
     @DisplayName("Will edit a player")
-    void editBillPaymentSuccess() throws Exception {
+    void editPlayerSuccess() throws Exception {
 
         String body = new ObjectMapper().writeValueAsString(player1);
 
         int id = player2.getId();
 
-
         when(playerRepository.findById(player2.getId())).thenReturn(Optional.of(player2));
         when(playerRepository.save(player1)).thenReturn(player1);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .put("/player")
-                .param("id", String.valueOf(id))
+                .put("/player/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body);
 
