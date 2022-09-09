@@ -15,7 +15,7 @@ public class Point {
         // Hibernate
     }
 
-    private String translatePoint(int score) {
+    public String translatePoint(int score) {
         switch (score) {
             case 3:
                 return "Forty";

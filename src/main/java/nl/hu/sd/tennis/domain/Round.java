@@ -22,17 +22,17 @@ public class Round {
     @OneToOne
     private Player receiver;
 
+    @OneToOne
+    private Point point;
+
     @Enumerated(EnumType.STRING)
     private GameStatus status = GameStatus.START;
 
-    @OneToOne
-    @JoinColumn(name = "point_id")
-    private Point point;
 
-//    @Joi
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-//    private final List<Set> sets = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private final List<SetRound> setRounds = new ArrayList<>();
 
     public Round() {
         // This is for Hibernate
@@ -58,6 +58,8 @@ public class Round {
             int receiverScore = receiver.getScore();
             receiverScore = receiverScore + 1;
         }
+
+        getPoint().translatePoint(score);
     }
 
     public Point getPoint() {
