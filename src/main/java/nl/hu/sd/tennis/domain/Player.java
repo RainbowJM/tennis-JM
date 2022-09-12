@@ -21,7 +21,7 @@ public class Player {
 
     @Setter
     @Getter
-    private int score;
+    private int score = 0;
 
     public Player() {
     }

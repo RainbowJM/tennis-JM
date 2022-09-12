@@ -1,5 +1,7 @@
 package nl.hu.sd.tennis.domain;
 
+import lombok.Getter;
+import lombok.Setter;
 import nl.hu.sd.tennis.domain.exception.InvalidAction;
 import org.hibernate.annotations.Cascade;
 
@@ -8,13 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Getter
+@Setter
 @Entity
 public class Round {
     @Id
     @GeneratedValue
     private int id;
 
-    private int score = 0;
+    private int serverScore = 0;
+
+    private int receiverScore = 0;
 
     @OneToOne
     private Player server;
@@ -22,17 +28,14 @@ public class Round {
     @OneToOne
     private Player receiver;
 
-    @OneToOne
-    private Point point;
+//    @OneToOne
+//    private Point point;
 
     @Enumerated(EnumType.STRING)
-    private GameStatus status = GameStatus.START;
+    private GameStatus status;
 
-
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private final List<SetRound> setRounds = new ArrayList<>();
+    @ElementCollection
+    private List<Integer> scoreBoardServer = new ArrayList<>();
 
     public Round() {
         // This is for Hibernate
@@ -50,24 +53,36 @@ public class Round {
         }
 
         status = GameStatus.START;
+    }
 
-        if (randomNumber() == 1) {
-            int serverScore = server.getScore();
-            serverScore = serverScore + 1;
-        } else {
-            int receiverScore = receiver.getScore();
-            receiverScore = receiverScore + 1;
+    public void playing(Player player1, Player player2) {
+        status = GameStatus.PLAYING;
+
+        if (!(serverScore > 4) && !(receiverScore > 4)) {
+            if (randomNumber() == 1) {
+                serverScore = player1.getScore();
+                serverScore = serverScore + 1;
+                translatePoint(serverScore);
+            } else {
+                receiverScore = player2.getScore();
+                receiverScore = receiverScore + 1;
+                translatePoint(receiverScore);
+            }
         }
-
-        getPoint().translatePoint(score);
     }
 
-    public Point getPoint() {
-        return point;
-    }
-
-    public void setPoint(Point point) {
-        this.point = point;
+    public String translatePoint(int score) {
+        switch (score) {
+            case 3:
+                return "Forty";
+            case 2:
+                return "Thirty";
+            case 1:
+                return "Fifteen";
+            case 0:
+                return "Love";
+        }
+        throw new IllegalArgumentException("Illegal score: " + score);
     }
 
     private int randomNumber() {
