@@ -34,8 +34,11 @@ class RoundTest {
     void playing(){
         round.playing(server,receiver);
         String status = round.getStatus().toString();
+        int receiverScore = round.getReceiverScore();
+        int serverScore = round.getServerScore();
 
         assertEquals("PLAYING", status);
-
+        assertNotEquals(0,receiverScore);
+        assertNotEquals(0,serverScore);
     }
 }

@@ -28,14 +28,14 @@ public class Round {
     @OneToOne
     private Player receiver;
 
-//    @OneToOne
-//    private Point point;
-
     @Enumerated(EnumType.STRING)
     private GameStatus status;
 
     @ElementCollection
-    private List<Integer> scoreBoardServer = new ArrayList<>();
+    private List<String> scoreBoardServer = new ArrayList<>();
+
+    @ElementCollection
+    private List<String> scoreBoardReceiver = new ArrayList<>();
 
     public Round() {
         // This is for Hibernate
@@ -62,11 +62,11 @@ public class Round {
             if (randomNumber() == 1) {
                 serverScore = player1.getScore();
                 serverScore = serverScore + 1;
-                translatePoint(serverScore);
+                scoreBoardServer.add(translatePoint(serverScore));
             } else {
                 receiverScore = player2.getScore();
                 receiverScore = receiverScore + 1;
-                translatePoint(receiverScore);
+                scoreBoardReceiver.add(translatePoint(receiverScore));
             }
         }
     }
