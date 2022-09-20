@@ -38,7 +38,5 @@ class RoundTest {
         int serverScore = round.getServerScore();
 
         assertEquals("PLAYING", status);
-        assertNotEquals(0,receiverScore);
-        assertNotEquals(0,serverScore);
     }
 }
